@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Laptop Price Predictor</title>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Find your laptop's value.</h1>
+                    <p>Get an accurate price estimate.</p>
+                </div>
+                <div class="hero-image">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="screen-content"></div>
+                        </div>
+                        <div class="laptop-base"></div>
+                        <div class="laptop-notch"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-section">
+            <form action="/" method="POST" id="predictForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ram" data-icon="🧠">RAM</label>
+                        <input type="number" name="ram" id="ram" placeholder="8" value="{{ form_data.ram or '' }}" required>
+                        <span class="unit">GB</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight" data-icon="⚖️">Weight</label>
+                        <input type="number" step="0.1" name="weight" id="weight" placeholder="2.0" value="{{ form_data.weight or '' }}" required>
+                        <span class="unit">kg</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company" data-icon="🏢">Company</label>
+                        <select name="company" id="company" required>
+                            <option value="" disabled {% if not form_data.company %}selected{% endif %}>Select</option>
+                            <option value="acer" {% if form_data.company == 'acer' %}selected{% endif %}>Acer</option>
+                            <option value="apple" {% if form_data.company == 'apple' %}selected{% endif %}>Apple</option>
+                            <option value="asus" {% if form_data.company == 'asus' %}selected{% endif %}>Asus</option>
+                            <option value="dell" {% if form_data.company == 'dell' %}selected{% endif %}>Dell</option>
+                            <option value="hp" {% if form_data.company == 'hp' %}selected{% endif %}>HP</option>
+                            <option value="lenovo" {% if form_data.company == 'lenovo' %}selected{% endif %}>Lenovo</option>
+                            <option value="msi" {% if form_data.company == 'msi' %}selected{% endif %}>MSI</option>
+                            <option value="toshiba" {% if form_data.company == 'toshiba' %}selected{% endif %}>Toshiba</option>
+                            <option value="other" {% if form_data.company == 'other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="typename" data-icon="💻">Type</label>
+                        <select name="typename" id="typename" required>
+                            <option value="" disabled {% if not form_data.typename %}selected{% endif %}>Select</option>
+                            <option value="2in1convertible" {% if form_data.typename == '2in1convertible' %}selected{% endif %}>2 in 1 Convertible</option>
+                            <option value="gaming" {% if form_data.typename == 'gaming' %}selected{% endif %}>Gaming</option>
+                            <option value="netbook" {% if form_data.typename == 'netbook' %}selected{% endif %}>Netbook</option>
+                            <option value="notebook" {% if form_data.typename == 'notebook' %}selected{% endif %}>Notebook</option>
+                            <option value="ultrabook" {% if form_data.typename == 'ultrabook' %}selected{% endif %}>Ultrabook</option>
+                            <option value="workstation" {% if form_data.typename == 'workstation' %}selected{% endif %}>Workstation</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="opsys" data-icon="🖥️">Operating System</label>
+                        <select name="opsys" id="opsys" required>
+                            <option value="" disabled {% if not form_data.opsys %}selected{% endif %}>Select</option>
+                            <option value="windows" {% if form_data.opsys == 'windows' %}selected{% endif %}>Windows</option>
+                            <option value="mac" {% if form_data.opsys == 'mac' %}selected{% endif %}>macOS</option>
+                            <option value="linux" {% if form_data.opsys == 'linux' %}selected{% endif %}>Linux</option>
+                            <option value="other" {% if form_data.opsys == 'other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cpuname" data-icon="⚡">Processor</label>
+                        <select name="cpuname" id="cpuname" required>
+                            <option value="" disabled {% if not form_data.cpu %}selected{% endif %}>Select</option>
+                            <option value="intelcorei3" {% if form_data.cpu == 'intelcorei3' %}selected{% endif %}>Intel Core i3</option>
+                            <option value="intelcorei5" {% if form_data.cpu == 'intelcorei5' %}selected{% endif %}>Intel Core i5</option>
+                            <option value="intelcorei7" {% if form_data.cpu == 'intelcorei7' %}selected{% endif %}>Intel Core i7</option>
+                            <option value="amd" {% if form_data.cpu == 'amd' %}selected{% endif %}>AMD</option>
+                            <option value="other" {% if form_data.cpu == 'other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gpuname" data-icon="🎮">Graphics</label>
+                        <select name="gpuname" id="gpuname" required>
+                            <option value="" disabled {% if not form_data.gpu %}selected{% endif %}>Select</option>
+                            <option value="intel" {% if form_data.gpu == 'intel' %}selected{% endif %}>Intel</option>
+                            <option value="amd" {% if form_data.gpu == 'amd' %}selected{% endif %}>AMD</option>
+                            <option value="nvidia" {% if form_data.gpu == 'nvidia' %}selected{% endif %}>Nvidia</option>
+                        </select>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="touchscreen" id="touchscreen" {% if form_data.touchscreen %}checked{% endif %}>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">👆 Touch Screen</span>
+                        </label>
+                        
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="ips" id="ips" {% if form_data.ips %}checked{% endif %}>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">📺 IPS Display</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">🚀 Calculate Price</button>
+            </form>
+
+            <!-- Result Display (shows below form) -->
+            {% if pred_value is not none %}
+            <div class="result-display">
+                <div class="result-label">💰 Your estimated price</div>
+                <div class="price">
+                    <span class="currency">LKR</span>
+                    <span class="amount">{{ pred_value }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
